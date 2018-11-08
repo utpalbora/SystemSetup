@@ -185,7 +185,7 @@ fi
 
 cd
 if ! test -d dotfiles; then
-  git clone https://github.com/utpalbora/dotfiles.git && cd vimrc
+  git clone https://github.com/utpalbora/dotfiles.git && cd dotfiles
   ./vimrc.sh
   ./zsh.sh
 fi
