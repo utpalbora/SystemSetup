@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/bin/bash -aux
+
+#Set server to 0 when executing on Desktop environment
+server=1
 
 #Change timezone
 sudo ln -sf /usr/share/zoneinfo/Asia/Calcutta /etc/localtime
@@ -35,13 +38,17 @@ sudo apt-get install -fmy libevent-dev libdouble-conversion-dev libgoogle-glog-d
 sudo apt-get install -fmy zsh fonts-powerline
 
 #Assamese fonts
-#sudo apt-get install -fmy fonts-lohit-beng-assamese
-#Good fonts
-#sudo apt-get install -fmy fonts-dejavu fonts-inconsolata fonts-vollkorn fonts-ubuntu fonts-roboto fonts-powerline fonts-mononoki fonts-open-sans fonts-lato
+if (( !server )); then
+  #sudo apt-get install -fmy fonts-lohit-beng-assamese
+  #Good fonts
+  sudo apt-get install -fmy fonts-dejavu fonts-inconsolata fonts-vollkorn fonts-ubuntu fonts-roboto fonts-powerline fonts-mononoki fonts-open-sans fonts-lato
+fi
 
 #UI
-sudo apt-get install -fmy xdot graphviz
-sudo apt-get install -fmy terminator ranger quilt doxygen graphviz
+if (( !server )); then
+  sudo apt-get install -fmy xdot graphviz
+  sudo apt-get install -fmy terminator ranger quilt doxygen graphviz
+fi
 
 #GCC
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
@@ -79,7 +86,8 @@ sudo apt-get install -fmy llvm-5.0 clang-5.0 lld-5.0 lldb-5.0 llvm-6.0 clang-6.0
 #sudo apt-get install -fmy llvm-6.0-dev clang-6.0-dev lld-6.0-dev lldb-6.0-dev
 #sudo apt-get install -fmy llvm-7-dev clang-7-dev lld-7-dev lldb-7-dev
 sudo apt-get install -fmy clang-format-5.0 clang-format-6.0 clang-format-7 clang-tidy-5.0 clang-tidy-6.0 clang-tidy-7 clang-tools-5.0 clang-tools-6.0 clang-tools-7
-sudo apt-get install -fmy libc++1 libc++-dev libc++abi1 libc++abi-dev libc++1-7 libc++-7-dev libomp5 libomp-dev libomp5-7 libomp-7-dev libfuzzer-5.0-dev libfuzzer-6.0-dev libfuzzer-7-dev
+sudo apt-get install -fmy libc++1 libc++-dev libc++abi1 libc++abi-dev libomp5 libomp-dev libfuzzer-5.0-dev libfuzzer-6.0-dev libfuzzer-7-dev
+#sudo apt-get install -fmy libc++1-7 libc++-7-dev libc++abi1-7 libc++abi-7-dev libomp5-7 libomp-7-dev
 #sudo apt-get install -fmy libclang1-5.0 libclang1-6.0 libclang1-7 libclang-5.0-dev libclang-6.0-dev libclang-7-dev libclang1 libclang-dev libclang-common-5.0-dev libclang-common-6.0-dev libclang-common-7-dev
 sudo apt-get install -fmy ghc ghc-prof fp-compiler golang golang-1.7 golang-1.9 cython pypy
 
@@ -90,10 +98,12 @@ sudo apt-get update
 sudo apt-get install -fmy miktex
 
 #LaTeX
-sudo apt-get install -fmy texlive-science texmaker xzdec
-sudo tlmgr option repository ftp://tug.org/historic/systems/texlive/2017/tlnet-final
-tlmgr init-usertree
-tlmgr install dirtree
+if (( !server )); then
+  sudo apt-get install -fmy texlive-science texmaker xzdec
+  sudo tlmgr option repository ftp://tug.org/historic/systems/texlive/2017/tlnet-final
+  tlmgr init-usertree
+  tlmgr install dirtree
+fi
 
 #Monitoring
 sudo apt-get install -fmy htop tree
@@ -107,22 +117,25 @@ sudo apt-get install -fmy htop tree
 #sudo apt-get install rubygems-integration
 
 #Github hub setup
-wget https://github.com/github/hub/releases/download/v2.6.0/hub-linux-amd64-2.6.0.tgz
-tar -xf hub-linux-amd64-2.6.0.tgz
-mv hub-linux-amd64-2.6.0  $HOME/hub-linux-amd64-2.6.0
-export PATH="$PATH:$HOME/hub-linux-amd64-2.6.0/bin/"
-bashhub=$(grep -c "$HOME/hub-linux-amd64-2.6.0/etc/hub.bash_completion.sh" $HOME/.bashrc)
-if [ $bashhub -eq 0 ]; then
-  echo "if [ -f $HOME/hub-linux-amd64-2.6.0/etc/hub.bash_completion.sh ] ; then" >> $HOME/.bashrc
-  echo ". $HOME/hub-linux-amd64-2.6.0/etc/hub.bash_completion.sh" >> $HOME/.bashrc
-  echo "fi" >> $HOME/.bashrc
-fi
-zshhub=$(grep -c "$HOME/hub-linux-amd64-2.6.0/etc/hub.zsh_completion" $HOME/.zshrc)
-if [ $zshhub -eq 0 ]; then
-  echo "source $HOME/hub-linux-amd64-2.6.0/etc/hub.zsh_completion" >> $HOME/.zshrc
+if ! test -d $HOME/hub-linux-amd64-2.6.0; then
+  wget https://github.com/github/hub/releases/download/v2.6.0/hub-linux-amd64-2.6.0.tgz
+  tar -xf hub-linux-amd64-2.6.0.tgz
+  mv hub-linux-amd64-2.6.0 $HOME/hub-linux-amd64-2.6.0
+  rm hub-linux-amd64-2.6.0.tgz
+  echo 'export PATH="$PATH:$HOME/hub-linux-amd64-2.6.0/bin/"' >> $HOME/.profile
+  bashhub=$(grep -c "$HOME/hub-linux-amd64-2.6.0/etc/hub.bash_completion.sh" $HOME/.bashrc)
+  if [ $bashhub -eq 0 ]; then
+    echo "if [ -f $HOME/hub-linux-amd64-2.6.0/etc/hub.bash_completion.sh ] ; then" >> $HOME/.bashrc
+    echo ". $HOME/hub-linux-amd64-2.6.0/etc/hub.bash_completion.sh" >> $HOME/.bashrc
+    echo "fi" >> $HOME/.bashrc
+  fi
+  zshhub=$(grep -c "$HOME/hub-linux-amd64-2.6.0/etc/hub.zsh_completion" $HOME/.zshrc)
+  if [ $zshhub -eq 0 ]; then
+    echo "source $HOME/hub-linux-amd64-2.6.0/etc/hub.zsh_completion" >> $HOME/.zshrc
+  fi
 fi
 
-#exit 0
+exit 0
 
 #Setup LLVM
 export BASE=`pwd`
