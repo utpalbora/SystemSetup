@@ -106,6 +106,22 @@ sudo apt-get install -fmy htop tree
 #sudo apt-get install ruby-dev
 #sudo apt-get install rubygems-integration
 
+#Github hub setup
+wget https://github.com/github/hub/releases/download/v2.6.0/hub-linux-amd64-2.6.0.tgz
+tar -xf hub-linux-amd64-2.6.0.tgz
+mv hub-linux-amd64-2.6.0  $HOME/hub-linux-amd64-2.6.0
+export PATH="$PATH:$HOME/hub-linux-amd64-2.6.0/bin/"
+bashhub=$(grep -c "$HOME/hub-linux-amd64-2.6.0/etc/hub.bash_completion.sh" $HOME/.bashrc)
+if [ $bashhub -eq 0 ]; then
+  echo "if [ -f $HOME/hub-linux-amd64-2.6.0/etc/hub.bash_completion.sh ] ; then" >> $HOME/.bashrc
+  echo ". $HOME/hub-linux-amd64-2.6.0/etc/hub.bash_completion.sh" >> $HOME/.bashrc
+  echo "fi" >> $HOME/.bashrc
+fi
+zshhub=$(grep -c "$HOME/hub-linux-amd64-2.6.0/etc/hub.zsh_completion" $HOME/.zshrc)
+if [ $zshhub -eq 0 ]; then
+  echo "source $HOME/hub-linux-amd64-2.6.0/etc/hub.zsh_completion" >> $HOME/.zshrc
+fi
+
 #exit 0
 
 #Setup LLVM
