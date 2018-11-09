@@ -4,7 +4,7 @@
 sudo ln -sf /usr/share/zoneinfo/Asia/Calcutta /etc/localtime
 
 #change mirror
-sudo cp /etc/apt/sources.list /etc/apt/sources.list.old
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.`date '+%Y-%m-%d:%H:%M:%S'`
 sudo sed -ri "s/[a-z]\{2\}[a-z]?\.archive\.ubuntu\.com/mirror\.iith\.ac\.in/" /etc/apt/sources.list
 sudo sed -ri "s/security\.ubuntu\.com/mirror\.iith\.ac\.in/" /etc/apt/sources.list
 
