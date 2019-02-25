@@ -23,8 +23,11 @@ sudo apt-get install -fmy gcc g++ gfortran gdb
 sudo apt-get install -fmy llvm lld lldb clang clang-format clang-tidy clang-tools
 sudo apt-get install -fmy openssh-server screen tmux byobu
 sudo apt-get install -fmy vim exuberant-ctags valgrind
-sudo apt-get install -fmy libyaml-dev libstdc++5 libstdc++6 libc6-dev libboost-dev libboost-all-dev libglpk-dev libgmp-dev libmpfr-dev libmpfrc++-dev zlib1g-dev libxml2 libedit-dev swig
+sudo apt-get install -fmy libyaml-dev libstdc++5 libstdc++6 libc6-dev libboost-dev libboost-all-dev libglpk-dev libgmp-dev libmpfr-dev libmpfrc++-dev zlib1g-dev libxml2 libedit-dev swig libconfig-dev
 sudo apt-get install -fmy libblas-dev libopenblas-dev liblapack-dev libtmglib-dev liblapacke-dev libatlas-base-dev libclblas-dev
+
+#Graphics Libraries (SDL, GLUT, OpenGL)
+sudo apt-get install -fmy libsdl2-dev freeglut3-dev mesa-common-dev
 
 #perf
 sudo apt-get install -fmy linux-tools-common linux-tools-generic
