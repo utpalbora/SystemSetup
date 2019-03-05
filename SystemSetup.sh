@@ -29,6 +29,11 @@ sudo apt-get install -fmy libblas-dev libopenblas-dev liblapack-dev libtmglib-de
 #Graphics Libraries (SDL, GLUT, OpenGL)
 sudo apt-get install -fmy libsdl2-dev freeglut3-dev mesa-common-dev
 
+#Network Monitoring
+#sudo apt-get install -fmy lsof tcpdump iftop vnstat iptraf ifstat dstat bwm-ng netdig speedometer bmon slurm nethogs nload
+#sudo apt-get install -fmy top htop atop iotop iftop iostat
+
+
 #perf
 sudo apt-get install -fmy linux-tools-common linux-tools-generic
 
@@ -82,16 +87,49 @@ if [ $count7 -eq 0 ]; then
   echo "#deb-src http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-7 main" | sudo tee -a /etc/apt/sources.list
 fi
 
+count8=$(grep -c "deb http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-8 main" /etc/apt/sources.list)
+if [ $count8 -eq 0 ]; then
+  echo "# LLVM 8" | sudo tee -a /etc/apt/sources.list
+  echo "deb http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-8 main" | sudo tee -a /etc/apt/sources.list
+  echo "#deb-src http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-8 main" | sudo tee -a /etc/apt/sources.list
+fi
+
+count9=$(grep -c "deb http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-9 main" /etc/apt/sources.list)
+if [ $count9 -eq 0 ]; then
+  echo "# LLVM 9" | sudo tee -a /etc/apt/sources.list
+  echo "deb http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-9 main" | sudo tee -a /etc/apt/sources.list
+  echo "#deb-src http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-9 main" | sudo tee -a /etc/apt/sources.list
+fi
+
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
 sudo apt-get update
-sudo apt-get install -fmy llvm-5.0 clang-5.0 lld-5.0 lldb-5.0 llvm-6.0 clang-6.0 lld-6.0 lldb-6.0 llvm-7 clang-7 lld-7 lldb-7
+sudo apt-get install -fmy llvm-5.0 clang-5.0 lld-5.0 lldb-5.0
+sudo apt-get install -fmy llvm-6.0 clang-6.0 lld-6.0 lldb-6.0
+sudo apt-get install -fmy llvm-7 clang-7 lld-7 lldb-7
+sudo apt-get install -fmy llvm-8 clang-8 lld-8 lldb-8
+sudo apt-get install -fmy llvm-9 clang-9 lld-9 lldb-9
 #sudo apt-get install -fmy llvm-5.0-dev clang-5.0-dev lld-5.0-dev lldb-5.0-dev
 #sudo apt-get install -fmy llvm-6.0-dev clang-6.0-dev lld-6.0-dev lldb-6.0-dev
 #sudo apt-get install -fmy llvm-7-dev clang-7-dev lld-7-dev lldb-7-dev
-sudo apt-get install -fmy clang-format-5.0 clang-format-6.0 clang-format-7 clang-tidy-5.0 clang-tidy-6.0 clang-tidy-7 clang-tools-5.0 clang-tools-6.0 clang-tools-7
-sudo apt-get install -fmy libc++1 libc++-dev libc++abi1 libc++abi-dev libomp5 libomp-dev libfuzzer-5.0-dev libfuzzer-6.0-dev libfuzzer-7-dev
-#sudo apt-get install -fmy libc++1-7 libc++-7-dev libc++abi1-7 libc++abi-7-dev libomp5-7 libomp-7-dev
-#sudo apt-get install -fmy libclang1-5.0 libclang1-6.0 libclang1-7 libclang-5.0-dev libclang-6.0-dev libclang-7-dev libclang1 libclang-dev libclang-common-5.0-dev libclang-common-6.0-dev libclang-common-7-dev
+#sudo apt-get install -fmy llvm-8-dev clang-8-dev lld-8-dev lldb-8-dev
+#sudo apt-get install -fmy llvm-9-dev clang-9-dev lld-9-dev lldb-9-dev
+sudo apt-get install -fmy clang-format-5.0 clang-tidy-5.0 clang-tools-5.0
+sudo apt-get install -fmy clang-format-6.0 clang-tidy-6.0 clang-tools-6.0
+sudo apt-get install -fmy clang-format-7 clang-tidy-7 clang-tools-7
+sudo apt-get install -fmy clang-format-8 clang-tidy-8 clang-tools-8
+sudo apt-get install -fmy clang-format-9 clang-tidy-9 clang-tools-9
+sudo apt-get install -fmy libc++1 libc++-dev libc++abi1 libc++abi-dev libomp5 libomp-dev libclang1 libclang-dev
+#sudo apt-get install -fmy libfuzzer-5.0-dev libfuzzer-6.0-dev libfuzzer-7-dev libfuzzer-8-dev libfuzzer-9-dev
+#sudo apt-get install -fmy libc++1-5.0 libc++abi1-5.0 libomp5-5.0 libclang1-5.0
+#sudo apt-get install -fmy libc++-5.0-dev libc++abi-5.0-dev libomp-5.0-dev libclang-5.0-dev libclang-common-5.0-dev
+#sudo apt-get install -fmy libc++1-6.0 libc++abi1-6.0 libomp5-6.0 libclang1-6.0
+#sudo apt-get install -fmy libc++-6.0-dev libc++abi-6.0-dev libomp-6.0-dev libclang-6.0-dev libclang-common-6.0-dev
+#sudo apt-get install -fmy libc++1-7 libc++abi1-7 libomp5-7 libclang1-7
+#sudo apt-get install -fmy libc++-7-dev libc++abi-7-dev libomp-7-dev libclang-7-dev libclang-common-7-dev
+#sudo apt-get install -fmy libc++1-8 libc++abi1-8 libomp5-8 libclang1-8
+#sudo apt-get install -fmy libc++-8-dev libc++abi-8-dev libomp-8-dev libclang-8-dev libclang-common-8-dev
+#sudo apt-get install -fmy libc++1-9 libc++abi1-9 libomp5-9 libclang1-9
+#sudo apt-get install -fmy libc++-9-dev libc++abi-9-dev libomp-9-dev libclang-9-dev libclang-common-9-dev
 sudo apt-get install -fmy ghc ghc-prof fp-compiler golang golang-1.7 golang-1.9 cython pypy
 
 #MiKTeX
