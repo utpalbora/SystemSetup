@@ -27,7 +27,7 @@ sudo apt-get install -fmy libyaml-dev libstdc++5 libstdc++6 libc6-dev libboost-d
 sudo apt-get install -fmy libblas-dev libopenblas-dev liblapack-dev libtmglib-dev liblapacke-dev libatlas-base-dev libclblas-dev
 
 #Graphics Libraries (SDL, GLUT, OpenGL)
-sudo apt-get install -fmy libsdl2-dev freeglut3-dev mesa-common-dev
+#sudo apt-get install -fmy libsdl2-dev freeglut3-dev mesa-common-dev
 
 #Network Monitoring
 #sudo apt-get install -fmy lsof tcpdump iftop vnstat iptraf ifstat dstat bwm-ng netdig speedometer bmon slurm nethogs nload
@@ -133,10 +133,12 @@ sudo apt-get install -fmy libc++1 libc++-dev libc++abi1 libc++abi-dev libomp5 li
 sudo apt-get install -fmy ghc ghc-prof fp-compiler golang golang-1.7 golang-1.9 cython pypy
 
 #MiKTeX
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D6BC243565B2087BC3F897C9277A7293F59E4889
-echo "deb http://miktex.org/download/ubuntu `lsb_release -cs` universe" | sudo tee /etc/apt/sources.list.d/miktex.list
-sudo apt-get update
-sudo apt-get install -fmy miktex
+if (( !server )); then
+  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D6BC243565B2087BC3F897C9277A7293F59E4889
+  echo "deb http://miktex.org/download/ubuntu `lsb_release -cs` universe" | sudo tee /etc/apt/sources.list.d/miktex.list
+  sudo apt-get update
+  sudo apt-get install -fmy miktex
+fi
 
 #LaTeX
 if (( !server )); then
