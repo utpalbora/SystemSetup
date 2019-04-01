@@ -15,7 +15,7 @@ sudo apt-get update
 sudo apt-get dist-upgrade -fmy
 sudo apt-get autoremove -fmy
 sudo apt-get install -fmy autoconf automake make m4 libtool flex bison build-essential ninja-build cmake ccache
-sudo apt-get install -fmy binutils binutils-dev gawk texinfo
+sudo apt-get install -fmy binutils binutils-dev gawk texinfo glpk-utils
 sudo apt-get install -fmy git subversion wget curl
 sudo apt-get install -fmy perl tcl
 sudo apt-get install -fmy python python-pip python-setuptools python3 python3-pip python3-setuptools
