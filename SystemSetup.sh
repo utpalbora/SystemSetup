@@ -45,6 +45,10 @@ sudo apt-get install -fmy libunwind8-dev libelf-dev libdwarf-dev
 sudo apt-get install -fmy libevent-dev libdouble-conversion-dev libgoogle-glog-dev libgflags-dev libiberty-dev liblz4-dev liblzma-dev libsnappy-dev  libjemalloc-dev libssl-dev pkg-config xutils-dev dconf-cli
 sudo apt-get install -fmy zsh fonts-powerline
 
+#SAT, SMT Solvers & Theorem Provers
+#sudo apt-get install -fmy minisat minisat+ picosat clasp z3 libz3-4 libz3-dev cvc3 libcvc3-dev cvc4 libcvc4-dev boolector alt-ergo hol-light spass mona prover9 libqsopt-ex2 libqsopt-ex-dev coq why3
+#MapleCM Maplesat Lingeling Plingeling Treengeling Glucose3 Glucose4 cryptominisat Isabelle
+
 #Assamese fonts
 if (( !server )); then
   #sudo apt-get install -fmy fonts-lohit-beng-assamese
