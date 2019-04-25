@@ -14,7 +14,7 @@ sudo sed -ri "s/security\.ubuntu\.com/mirror\.iith\.ac\.in/" /etc/apt/sources.li
 sudo apt-get update
 sudo apt-get dist-upgrade -fmy
 sudo apt-get autoremove -fmy
-sudo apt-get install -fmy autoconf automake make m4 libtool flex bison build-essential ninja-build cmake ccache
+sudo apt-get install -fmy autoconf automake make m4 libtool flex bison build-essential ninja-build cmake ccache cmake-curses-gui
 sudo apt-get install -fmy binutils binutils-dev gawk texinfo glpk-utils
 sudo apt-get install -fmy git subversion wget curl
 sudo apt-get install -fmy perl tcl
