@@ -62,6 +62,9 @@ if (( !server )); then
   sudo apt-get install -fmy terminator ranger quilt doxygen graphviz
 fi
 
+#Filesystem extras
+#sudo apt-get install -fmy xfsprogs exfat-fuse exfat-utils
+
 #GCC
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 sudo apt-get update
