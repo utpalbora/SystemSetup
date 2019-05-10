@@ -182,6 +182,13 @@ if ! test -d $HOME/hub-linux-amd64-2.6.0; then
   fi
 fi
 
+# Remap CAPS to ESCAPE
+capsesc=$(grep -c "XKBOPTIONS=\"caps:escape\"" /etc/default/keyboard)
+if [ $capsesc -eq 0 ]; then
+  echo "XKBOPTIONS=\"caps:escape\"" | sudo tee -a /etc/default/keyboard
+  sudo dpkg-reconfigure keyboard-configuration
+fi
+
 exit 0
 
 #Setup LLVM
