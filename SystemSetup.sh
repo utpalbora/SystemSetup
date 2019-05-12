@@ -65,6 +65,15 @@ fi
 #Filesystem extras
 #sudo apt-get install -fmy xfsprogs exfat-fuse exfat-utils
 
+#Bluetooth Driver for Ubuntu 18.04
+if (( !server )); then
+  sudo add-apt-repository ppa:bluetooth/bluez
+  sudo apt-get update
+  sudo apt upgrade
+  sudo apt-get install -fmy blueman pavucontrol pulseaudio-module-bluetooth
+  sudo apt-get install -fmy bluetooth bluez bluez-tools rfkill
+fi
+
 #GCC
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 sudo apt-get update
