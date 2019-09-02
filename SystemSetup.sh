@@ -74,6 +74,15 @@ if (( !server )); then
   sudo apt-get install -fmy bluetooth bluez bluez-tools rfkill
 fi
 
+if (( !server )); then
+  #Cisco OpenConnect VPN
+  sudo apt-get install -fmy network-manager-openconnect-gnome
+
+  #Ubuntu restricted Extras
+  sudo apt-get install -fmy ubuntu-restricted-extras
+  sudo apt-get install -fmy adobe-flashplugin flashplugin-installer
+fi
+
 #GCC
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 sudo apt-get update
@@ -171,9 +180,17 @@ sudo apt-get install -fmy htop tree
 #sudo apt-get install -fmy apache2 mysql-server php7.0 php7.0-mysql libapache2-mod-php7.0 php7.0-intl php7.0-mcrypt php-imagick php7.0-xml php7.0-zip php7.0-gd php7.0-json php7.0-curl php7.0-mbstring php7.0-imap php7.0-ldap
 
 #Ruby development
-#sudo apt-get install ruby
-#sudo apt-get install ruby-dev
-#sudo apt-get install rubygems-integration
+#sudo apt-get install -fmy ruby
+#sudo apt-get install -fmy ruby-dev
+#sudo apt-get install -fmy rubygems-integration
+
+#Setup Dotfiles
+cd
+if ! test -d dotfiles; then
+  git clone https://github.com/utpalbora/dotfiles.git && cd dotfiles
+  ./vimrc.sh
+  ./zsh.sh
+fi
 
 #Github hub setup
 if ! test -d $HOME/hub-linux-amd64-2.6.0; then
@@ -277,11 +294,3 @@ else
 
     make
 fi
-
-cd
-if ! test -d dotfiles; then
-  git clone https://github.com/utpalbora/dotfiles.git && cd dotfiles
-  ./vimrc.sh
-  ./zsh.sh
-fi
-
