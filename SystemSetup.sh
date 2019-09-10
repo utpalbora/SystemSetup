@@ -128,11 +128,11 @@ fi
 
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
 sudo apt-get update
-sudo apt-get install -fmy llvm-5.0 clang-5.0 lld-5.0 lldb-5.0
-sudo apt-get install -fmy llvm-6.0 clang-6.0 lld-6.0 lldb-6.0
-sudo apt-get install -fmy llvm-7 clang-7 lld-7 lldb-7
-sudo apt-get install -fmy llvm-8 clang-8 lld-8 lldb-8
-sudo apt-get install -fmy llvm-9 clang-9 lld-9 lldb-9
+sudo apt-get install -fmy llvm-5.0 clang-5.0 lld-5.0 lldb-5.0 python-lldb-5.0
+sudo apt-get install -fmy llvm-6.0 clang-6.0 lld-6.0 lldb-6.0 python-lldb-6.0
+sudo apt-get install -fmy llvm-7 clang-7 lld-7 lldb-7 python-lldb-7
+sudo apt-get install -fmy llvm-8 clang-8 lld-8 lldb-8 python-lldb-8
+sudo apt-get install -fmy llvm-9 clang-9 lld-9 lldb-9 python-lldb-9
 #sudo apt-get install -fmy llvm-5.0-dev clang-5.0-dev lld-5.0-dev lldb-5.0-dev
 #sudo apt-get install -fmy llvm-6.0-dev clang-6.0-dev lld-6.0-dev lldb-6.0-dev
 #sudo apt-get install -fmy llvm-7-dev clang-7-dev lld-7-dev lldb-7-dev
@@ -180,12 +180,18 @@ sudo apt-get install -fmy htop tree
 #sudo apt-get install -fmy apache2 mysql-server php7.0 php7.0-mysql libapache2-mod-php7.0 php7.0-intl php7.0-mcrypt php-imagick php7.0-xml php7.0-zip php7.0-gd php7.0-json php7.0-curl php7.0-mbstring php7.0-imap php7.0-ldap
 
 #Ruby development
-#sudo apt-get install -fmy ruby
-#sudo apt-get install -fmy ruby-dev
-#sudo apt-get install -fmy rubygems-integration
+if (( !server )); then
+  sudo apt-get install -fmy ruby-full build-essential zlib1g-dev
+  #echo '# Install Ruby Gems to ~/gems' >> ~/.bashrc
+  #echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc
+  #echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc
+  #source ~/.bashrc
+  #echo 'export GEM_HOME="$HOME/gems"'
+  #echo 'export PATH="$HOME/gems/bin:$PATH"'
+  #gem install jekyll bundler
+fi
 
 #Setup Dotfiles
-cd
 if ! test -d dotfiles; then
   git clone https://github.com/utpalbora/dotfiles.git && cd dotfiles
   ./vimrc.sh
