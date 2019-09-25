@@ -86,7 +86,11 @@ fi
 #GCC
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 sudo apt-get update
-sudo apt-get install -fmy gcc-4.8 gcc-5 gcc-6 gcc-7 gcc-8 gcc-4.8-multilib gcc-5-multilib gcc-6-multilib gcc-7-multilib gcc-8-multilib g++-4.8 g++-5 g++-6 g++-7 g++-8 g++-4.8-multilib g++-5-multilib g++-6-multilib g++-7-multilib g++-8-multilib gfortran-4.8 gfortran-5 gfortran-6 gfortran-7 gfortran-8
+sudo apt-get install -fmy gcc-4.8 gcc-5 gcc-6 gcc-7 gcc-8 gcc-9
+sudo apt-get install -fmy gcc-4.8-multilib gcc-5-multilib gcc-6-multilib gcc-7-multilib gcc-8-multilib gcc-9-multilib
+sudo apt-get install -fmy g++-4.8 g++-5 g++-6 g++-7 g++-8 g++-9
+sudo apt-get install -fmy g++-4.8-multilib g++-5-multilib g++-6-multilib g++-7-multilib g++-8-multilib g++-9-multilib
+sudo apt-get install -fmy gfortran-4.8 gfortran-5 gfortran-6 gfortran-7 gfortran-8 gfortran-9
 sudo apt-get install -fmy gcc-aarch64-linux-gnu gcc-mips-linux-gnu gcc-powerpc64-linux-gnu gcc-sparc64-linux-gnu
 sudo apt-get install -fmy g++-aarch64-linux-gnu g++-mips-linux-gnu g++-powerpc64-linux-gnu g++-sparc64-linux-gnu
 
