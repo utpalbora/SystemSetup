@@ -16,14 +16,14 @@ sudo apt-get dist-upgrade -fmy
 sudo apt-get autoremove -fmy
 sudo apt-get install -fmy autoconf automake make m4 libtool flex bison build-essential ninja-build cmake ccache cmake-curses-gui
 sudo apt-get install -fmy binutils binutils-dev gawk texinfo glpk-utils
-sudo apt-get install -fmy git subversion wget curl
+sudo apt-get install -fmy git git-lfs subversion wget curl
 sudo apt-get install -fmy perl tcl
 sudo apt-get install -fmy python python-pip python-setuptools python3 python3-pip python3-setuptools
 sudo apt-get install -fmy gcc g++ gfortran gdb
-sudo apt-get install -fmy llvm lld lldb clang clang-format clang-tidy clang-tools
+sudo apt-get install -fmy llvm lld lldb clang clang-format clang-tidy clang-tools clangd
 sudo apt-get install -fmy openssh-server screen tmux byobu
 sudo apt-get install -fmy vim exuberant-ctags valgrind
-sudo apt-get install -fmy libyaml-dev libstdc++5 libstdc++6 libc6-dev libboost-dev libboost-all-dev libglpk-dev libgmp-dev libmpfr-dev libmpfrc++-dev zlib1g-dev libxml2 libedit-dev swig libconfig-dev
+sudo apt-get install -fmy libyaml-dev libstdc++5 libstdc++6 libc6-dev libboost-dev libboost-all-dev libglpk-dev libgmp-dev libmpfr-dev libmpfrc++-dev zlib1g-dev libxml2 libxml2-dev libedit-dev swig libconfig-dev
 sudo apt-get install -fmy libblas-dev libopenblas-dev liblapack-dev libtmglib-dev liblapacke-dev libatlas-base-dev libclblas-dev
 
 #Graphics Libraries (SDL, GLUT, OpenGL)
@@ -51,7 +51,7 @@ sudo apt-get install -fmy zsh fonts-powerline
 
 #Assamese fonts
 if (( !server )); then
-  #sudo apt-get install -fmy fonts-lohit-beng-assamese
+  sudo apt-get install -fmy fonts-lohit-beng-assamese
   #Good fonts
   sudo apt-get install -fmy fonts-dejavu fonts-inconsolata fonts-vollkorn fonts-ubuntu fonts-roboto fonts-powerline fonts-mononoki fonts-open-sans fonts-lato
 fi
@@ -86,69 +86,91 @@ fi
 #GCC
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 sudo apt-get update
-sudo apt-get install -fmy gcc-4.8 gcc-5 gcc-6 gcc-7 gcc-8 gcc-9
-sudo apt-get install -fmy gcc-4.8-multilib gcc-5-multilib gcc-6-multilib gcc-7-multilib gcc-8-multilib gcc-9-multilib
-sudo apt-get install -fmy g++-4.8 g++-5 g++-6 g++-7 g++-8 g++-9
-sudo apt-get install -fmy g++-4.8-multilib g++-5-multilib g++-6-multilib g++-7-multilib g++-8-multilib g++-9-multilib
-sudo apt-get install -fmy gfortran-4.8 gfortran-5 gfortran-6 gfortran-7 gfortran-8 gfortran-9
-sudo apt-get install -fmy gcc-aarch64-linux-gnu gcc-mips-linux-gnu gcc-powerpc64-linux-gnu gcc-sparc64-linux-gnu
-sudo apt-get install -fmy g++-aarch64-linux-gnu g++-mips-linux-gnu g++-powerpc64-linux-gnu g++-sparc64-linux-gnu
+sudo apt-get install -fmy gcc-4.8 g++-4.8 gfortran-4.8 #gcc-4.8-multilib g++-4.8-multilib
+sudo apt-get install -fmy gcc-5 g++-5 gfortran-5 #gcc-5-multilib g++-5-multilib
+sudo apt-get install -fmy gcc-6 g++-6 gfortran-6 #gcc-6-multilib g++-6-multilib
+sudo apt-get install -fmy gcc-7 g++-7 gfortran-7 #gcc-7-multilib g++-7-multilib
+sudo apt-get install -fmy gcc-8 g++-8 gfortran-8 #gcc-8-multilib g++-8-multilib
+sudo apt-get install -fmy gcc-9 g++-9 gfortran-9 #gcc-9-multilib g++-9-multilib
+sudo apt-get install -fmy gcc-10 g++-10 gfortran-10 #gcc-10-multilib g++-10-multilib
+#sudo apt-get install -fmy gcc-multilib g++-multilib
+sudo apt-get install -fmy gcc-aarch64-linux-gnu gcc-mips-linux-gnu gcc-powerpc64-linux-gnu gcc-sparc64-linux-gnu gcc-arm-linux-gnueabi
+sudo apt-get install -fmy g++-aarch64-linux-gnu g++-mips-linux-gnu g++-powerpc64-linux-gnu g++-sparc64-linux-gnu g++-arm-linux-gnueabi
 
+UBUNTU_VERSION=`lsb_release -cs`
 #LLVM
-count5=$(grep -c "deb http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-5.0 main" /etc/apt/sources.list)
+count5=$(grep -c "deb http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-5.0 main" /etc/apt/sources.list)
 if [ $count5 -eq 0 ]; then
   echo "# LLVM 5.0" | sudo tee -a /etc/apt/sources.list
-  echo "deb http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-5.0 main" | sudo tee -a /etc/apt/sources.list
-  echo "#deb-src http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-5.0 main" | sudo tee -a /etc/apt/sources.list
+  echo "deb http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-5.0 main" | sudo tee -a /etc/apt/sources.list
+  echo "#deb-src http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-5.0 main" | sudo tee -a /etc/apt/sources.list
 fi
 
-count6=$(grep -c "deb http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-6.0 main" /etc/apt/sources.list)
+count6=$(grep -c "deb http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-6.0 main" /etc/apt/sources.list)
 if [ $count6 -eq 0 ]; then
   echo "# LLVM 6.0" | sudo tee -a /etc/apt/sources.list
-  echo "deb http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-6.0 main" | sudo tee -a /etc/apt/sources.list
-  echo "#deb-src http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-6.0 main" | sudo tee -a /etc/apt/sources.list
+  echo "deb http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-6.0 main" | sudo tee -a /etc/apt/sources.list
+  echo "#deb-src http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-6.0 main" | sudo tee -a /etc/apt/sources.list
 fi
 
-count7=$(grep -c "deb http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-7 main" /etc/apt/sources.list)
+count7=$(grep -c "deb http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-7 main" /etc/apt/sources.list)
 if [ $count7 -eq 0 ]; then
   echo "# LLVM 7" | sudo tee -a /etc/apt/sources.list
-  echo "deb http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-7 main" | sudo tee -a /etc/apt/sources.list
-  echo "#deb-src http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-7 main" | sudo tee -a /etc/apt/sources.list
+  echo "deb http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-7 main" | sudo tee -a /etc/apt/sources.list
+  echo "#deb-src http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-7 main" | sudo tee -a /etc/apt/sources.list
 fi
 
-count8=$(grep -c "deb http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-8 main" /etc/apt/sources.list)
+count8=$(grep -c "deb http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-8 main" /etc/apt/sources.list)
 if [ $count8 -eq 0 ]; then
   echo "# LLVM 8" | sudo tee -a /etc/apt/sources.list
-  echo "deb http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-8 main" | sudo tee -a /etc/apt/sources.list
-  echo "#deb-src http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-8 main" | sudo tee -a /etc/apt/sources.list
+  echo "deb http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-8 main" | sudo tee -a /etc/apt/sources.list
+  echo "#deb-src http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-8 main" | sudo tee -a /etc/apt/sources.list
 fi
 
-count9=$(grep -c "deb http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-9 main" /etc/apt/sources.list)
+count9=$(grep -c "deb http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-9 main" /etc/apt/sources.list)
 if [ $count9 -eq 0 ]; then
   echo "# LLVM 9" | sudo tee -a /etc/apt/sources.list
-  echo "deb http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-9 main" | sudo tee -a /etc/apt/sources.list
-  echo "#deb-src http://apt.llvm.org/`lsb_release -cs`/ llvm-toolchain-`lsb_release -cs`-9 main" | sudo tee -a /etc/apt/sources.list
+  echo "deb http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-9 main" | sudo tee -a /etc/apt/sources.list
+  echo "#deb-src http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-9 main" | sudo tee -a /etc/apt/sources.list
 fi
 
-wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+count10=$(grep -c "deb http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-10 main" /etc/apt/sources.list)
+if [ $count10 -eq 0 ]; then
+  echo "# LLVM 10" | sudo tee -a /etc/apt/sources.list
+  echo "deb http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-10 main" | sudo tee -a /etc/apt/sources.list
+  echo "#deb-src http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-10 main" | sudo tee -a /etc/apt/sources.list
+fi
+
+count11=$(grep -c "deb http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-11 main" /etc/apt/sources.list)
+if [ $count11 -eq 0 ]; then
+  echo "# LLVM 11" | sudo tee -a /etc/apt/sources.list
+  echo "deb http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-11 main" | sudo tee -a /etc/apt/sources.list
+  echo "#deb-src http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-11 main" | sudo tee -a /etc/apt/sources.list
+fi
+
+wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
 sudo apt-get update
-sudo apt-get install -fmy llvm-5.0 clang-5.0 lld-5.0 lldb-5.0 python-lldb-5.0
-sudo apt-get install -fmy llvm-6.0 clang-6.0 lld-6.0 lldb-6.0 python-lldb-6.0
-sudo apt-get install -fmy llvm-7 clang-7 lld-7 lldb-7 python-lldb-7
-sudo apt-get install -fmy llvm-8 clang-8 lld-8 lldb-8 python-lldb-8
-sudo apt-get install -fmy llvm-9 clang-9 lld-9 lldb-9 python-lldb-9
-#sudo apt-get install -fmy llvm-5.0-dev clang-5.0-dev lld-5.0-dev lldb-5.0-dev
-#sudo apt-get install -fmy llvm-6.0-dev clang-6.0-dev lld-6.0-dev lldb-6.0-dev
-#sudo apt-get install -fmy llvm-7-dev clang-7-dev lld-7-dev lldb-7-dev
-#sudo apt-get install -fmy llvm-8-dev clang-8-dev lld-8-dev lldb-8-dev
-#sudo apt-get install -fmy llvm-9-dev clang-9-dev lld-9-dev lldb-9-dev
-sudo apt-get install -fmy clang-format-5.0 clang-tidy-5.0 clang-tools-5.0
-sudo apt-get install -fmy clang-format-6.0 clang-tidy-6.0 clang-tools-6.0
-sudo apt-get install -fmy clang-format-7 clang-tidy-7 clang-tools-7
-sudo apt-get install -fmy clang-format-8 clang-tidy-8 clang-tools-8
-sudo apt-get install -fmy clang-format-9 clang-tidy-9 clang-tools-9
-sudo apt-get install -fmy libc++1 libc++-dev libc++abi1 libc++abi-dev libomp5 libomp-dev libclang1 libclang-dev
-#sudo apt-get install -fmy libfuzzer-5.0-dev libfuzzer-6.0-dev libfuzzer-7-dev libfuzzer-8-dev libfuzzer-9-dev
+sudo apt-get install -fmy llvm-5.0 clang-5.0 lld-5.0 #lldb-5.0 python-lldb-5.0
+sudo apt-get install -fmy llvm-6.0 clang-6.0 lld-6.0 #lldb-6.0 python-lldb-6.0
+sudo apt-get install -fmy llvm-7 clang-7 lld-7 #lldb-7 python-lldb-7
+sudo apt-get install -fmy llvm-8 clang-8 lld-8 #lldb-8 python-lldb-8
+sudo apt-get install -fmy llvm-9 clang-9 lld-9 #lldb-9 python-lldb-9
+sudo apt-get install -fmy llvm-10 clang-10 lld-10 #lldb-10 python-lldb-10
+sudo apt-get install -fmy llvm-11 clang-11 lld-11 #lldb-11 python-lldb-11
+#sudo apt-get install -fmy llvm-5.0-dev clang-5.0-dev lld-5.0-dev #lldb-5.0-dev
+#sudo apt-get install -fmy llvm-6.0-dev clang-6.0-dev lld-6.0-dev #lldb-6.0-dev
+#sudo apt-get install -fmy llvm-7-dev clang-7-dev lld-7-dev #lldb-7-dev
+#sudo apt-get install -fmy llvm-8-dev clang-8-dev lld-8-dev #lldb-8-dev
+#sudo apt-get install -fmy llvm-9-dev clang-9-dev lld-9-dev #lldb-9-dev
+#sudo apt-get install -fmy llvm-10-dev clang-10-dev lld-10-dev #lldb-10-dev
+#sudo apt-get install -fmy llvm-11-dev clang-11-dev lld-11-dev #lldb-11-dev
+#sudo apt-get install -fmy clang-format-5.0 clang-tidy-5.0 clang-tools-5.0
+#sudo apt-get install -fmy clang-format-6.0 clang-tidy-6.0 clang-tools-6.0
+#sudo apt-get install -fmy clang-format-7 clang-tidy-7 clang-tools-7
+#sudo apt-get install -fmy clang-format-8 clang-tidy-8 clang-tools-8
+#sudo apt-get install -fmy clang-format-9 clang-tidy-9 clang-tools-9
+#sudo apt-get install -fmy clang-format-10 clang-tidy-10 clang-tools-10
+#sudo apt-get install -fmy clang-format-11 clang-tidy-11 clang-tools-11
 #sudo apt-get install -fmy libc++1-5.0 libc++abi1-5.0 libomp5-5.0 libclang1-5.0
 #sudo apt-get install -fmy libc++-5.0-dev libc++abi-5.0-dev libomp-5.0-dev libclang-5.0-dev libclang-common-5.0-dev
 #sudo apt-get install -fmy libc++1-6.0 libc++abi1-6.0 libomp5-6.0 libclang1-6.0
@@ -159,14 +181,22 @@ sudo apt-get install -fmy libc++1 libc++-dev libc++abi1 libc++abi-dev libomp5 li
 #sudo apt-get install -fmy libc++-8-dev libc++abi-8-dev libomp-8-dev libclang-8-dev libclang-common-8-dev
 #sudo apt-get install -fmy libc++1-9 libc++abi1-9 libomp5-9 libclang1-9
 #sudo apt-get install -fmy libc++-9-dev libc++abi-9-dev libomp-9-dev libclang-9-dev libclang-common-9-dev
+#sudo apt-get install -fmy libc++1-10 libc++abi1-10 libomp5-10 libclang1-10
+#sudo apt-get install -fmy libc++-10-dev libc++abi-10-dev libomp-10-dev libclang-10-dev libclang-common-10-dev
+#sudo apt-get install -fmy libc++1-11 libc++abi1-11 libomp5-11 libclang1-11
+#sudo apt-get install -fmy libc++-11-dev libc++abi-11-dev libomp-11-dev libclang-11-dev libclang-common-11-dev
 sudo apt-get install -fmy ghc ghc-prof fp-compiler golang golang-1.7 golang-1.9 cython pypy
+sudo apt-get install -fmy libc++1 libc++abi1 libomp5 libclang1
+sudo apt-get install -fmy libc++-dev libc++abi-dev libomp-dev libclang-dev
+#sudo apt-get install -fmy llvm-dev lld-dev clang-dev clang-format-dev clang-tidy-dev clang-tools-dev
+#sudo apt-get install -fmy libfuzzer-5.0-dev libfuzzer-6.0-dev libfuzzer-7-dev libfuzzer-8-dev libfuzzer-9-dev libfuzzer-10-dev libfuzzer-11-dev
 
 #MiKTeX
 if (( !server )); then
   sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D6BC243565B2087BC3F897C9277A7293F59E4889
-  echo "deb http://miktex.org/download/ubuntu `lsb_release -cs` universe" | sudo tee /etc/apt/sources.list.d/miktex.list
-  sudo apt-get update
-  sudo apt-get install -fmy miktex
+  #echo "deb http://miktex.org/download/ubuntu ${UBUNTU_VERSION} universe" | sudo tee /etc/apt/sources.list.d/miktex.list
+  #sudo apt-get update
+  #sudo apt-get install -fmy miktex
 fi
 
 #LaTeX
