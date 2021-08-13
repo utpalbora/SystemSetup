@@ -20,7 +20,7 @@ sudo apt-get install -fmy git git-lfs subversion wget curl
 sudo apt-get install -fmy perl tcl
 sudo apt-get install -fmy python python-pip python-setuptools python3 python3-pip python3-setuptools
 sudo apt-get install -fmy gcc g++ gfortran gdb
-sudo apt-get install -fmy llvm lld lldb clang clang-format clang-tidy clang-tools clangd
+sudo apt-get install -fmy lld lldb clang clang-format clang-tidy clang-tools clangd #llvm
 sudo apt-get install -fmy openssh-server screen tmux byobu
 sudo apt-get install -fmy vim exuberant-ctags valgrind
 sudo apt-get install -fmy libyaml-dev libstdc++5 libstdc++6 libc6-dev libboost-dev libboost-all-dev libglpk-dev libgmp-dev libmpfr-dev libmpfrc++-dev zlib1g-dev libxml2 libxml2-dev libedit-dev swig libconfig-dev
@@ -97,9 +97,17 @@ sudo apt-get install -fmy gcc-10 g++-10 gfortran-10 #gcc-10-multilib g++-10-mult
 sudo apt-get install -fmy gcc-aarch64-linux-gnu gcc-mips-linux-gnu gcc-powerpc64-linux-gnu gcc-sparc64-linux-gnu gcc-arm-linux-gnueabi
 sudo apt-get install -fmy g++-aarch64-linux-gnu g++-mips-linux-gnu g++-powerpc64-linux-gnu g++-sparc64-linux-gnu g++-arm-linux-gnueabi
 
+#CMake PPA
+sudo apt-get install -fmy apt-transport-https wget
+wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main' | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+sudo rm /usr/share/keyrings/kitware-archive-keyring.gpg
+sudo apt-get install -fmy kitware-archive-keyring
+sudo apt-get install -fmy cmake
+
 #LLVM
 UBUNTU_VERSION=`lsb_release -cs`
-for llvm_ver in 5.0 6.0 7 8 9 10 11 12; do
+for llvm_ver in 5.0 6.0 7 8 9 10 11 12 13; do
 count=$(grep -c "deb http://apt.llvm.org/${UBUNTU_VERSION}/ llvm-toolchain-${UBUNTU_VERSION}-${llvm_ver} main" /etc/apt/sources.list)
 if [ $count -eq 0 ]; then
   echo "# LLVM ${llvm_ver}" | sudo tee -a /etc/apt/sources.list
@@ -110,14 +118,24 @@ done
 
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
 sudo apt-get update
-sudo apt-get install -fmy llvm-5.0 clang-5.0 lld-5.0 #lldb-5.0 python-lldb-5.0
-sudo apt-get install -fmy llvm-6.0 clang-6.0 lld-6.0 #lldb-6.0 python-lldb-6.0
-sudo apt-get install -fmy llvm-7 clang-7 lld-7 #lldb-7 python-lldb-7
-sudo apt-get install -fmy llvm-8 clang-8 lld-8 #lldb-8 python-lldb-8
-sudo apt-get install -fmy llvm-9 clang-9 lld-9 #lldb-9 python-lldb-9
-sudo apt-get install -fmy llvm-10 clang-10 lld-10 #lldb-10 python-lldb-10
-sudo apt-get install -fmy llvm-11 clang-11 lld-11 #lldb-11 python-lldb-11
-sudo apt-get install -fmy llvm-12 clang-12 lld-12 #lldb-12 python-lldb-12
+for llvm_ver in 5.0 6.0 7 8 9 10 11 12 13; do
+  echo "LLVM Version ${llvm_ver}"
+  #sudo apt-get install -fmy clang-${llvm_ver} lld-${llvm_ver} #lldb-${llvm_ver} python-lldb-${llvm_ver} #llvm-${llvm_ver}
+  #sudo apt-get install -fmy clang-${llvm_ver}-dev lld-${llvm_ver}-dev #lldb-${llvm_ver}-dev #llvm-${llvm_ver}-dev
+  #sudo apt-get install -fmy clang-format-${llvm_ver} clang-tidy-${llvm_ver} clang-tools-${llvm_ver}
+  #sudo apt-get install -fmy libc++1-${llvm_ver} libc++abi1-${llvm_ver} libomp5-${llvm_ver} libclang1-${llvm_ver} libclang-cpp${llvm_ver}
+  #sudo apt-get install -fmy libc++-${llvm_ver}-dev libc++abi-${llvm_ver}-dev libomp-${llvm_ver}-dev libclang-${llvm_ver}-dev libclang-common-${llvm_ver}-dev libclang-cpp${llvm_ver}-dev
+  #sudo apt-get install -fmy libfuzzer-${llvm_ver}-dev
+done
+sudo apt-get install -fmy clang-5.0 lld-5.0 #llvm-5.0 lldb-5.0 python-lldb-5.0
+sudo apt-get install -fmy clang-6.0 lld-6.0 #llvm-6.0 lldb-6.0 python-lldb-6.0
+sudo apt-get install -fmy clang-7 lld-7 #llvm-7 lldb-7 python-lldb-7
+sudo apt-get install -fmy clang-8 lld-8 #llvm-8 lldb-8 python-lldb-8
+sudo apt-get install -fmy clang-9 lld-9 #llvm-9 lldb-9 python-lldb-9
+sudo apt-get install -fmy clang-10 lld-10 #llvm-10 lldb-10 python-lldb-10
+sudo apt-get install -fmy clang-11 lld-11 #llvm-11 lldb-11 python-lldb-11
+sudo apt-get install -fmy clang-12 lld-12 #llvm-12 lldb-12 python-lldb-12
+sudo apt-get install -fmy clang-13 lld-13 #llvm-13 lldb-13 python-lldb-13
 #sudo apt-get install -fmy llvm-5.0-dev clang-5.0-dev lld-5.0-dev #lldb-5.0-dev
 #sudo apt-get install -fmy llvm-6.0-dev clang-6.0-dev lld-6.0-dev #lldb-6.0-dev
 #sudo apt-get install -fmy llvm-7-dev clang-7-dev lld-7-dev #lldb-7-dev
@@ -126,6 +144,7 @@ sudo apt-get install -fmy llvm-12 clang-12 lld-12 #lldb-12 python-lldb-12
 #sudo apt-get install -fmy llvm-10-dev clang-10-dev lld-10-dev #lldb-10-dev
 #sudo apt-get install -fmy llvm-11-dev clang-11-dev lld-11-dev #lldb-11-dev
 #sudo apt-get install -fmy llvm-12-dev clang-12-dev lld-12-dev #lldb-12-dev
+#sudo apt-get install -fmy llvm-13-dev clang-13-dev lld-13-dev #lldb-13-dev
 #sudo apt-get install -fmy clang-format-5.0 clang-tidy-5.0 clang-tools-5.0
 #sudo apt-get install -fmy clang-format-6.0 clang-tidy-6.0 clang-tools-6.0
 #sudo apt-get install -fmy clang-format-7 clang-tidy-7 clang-tools-7
@@ -134,6 +153,7 @@ sudo apt-get install -fmy llvm-12 clang-12 lld-12 #lldb-12 python-lldb-12
 #sudo apt-get install -fmy clang-format-10 clang-tidy-10 clang-tools-10
 #sudo apt-get install -fmy clang-format-11 clang-tidy-11 clang-tools-11
 #sudo apt-get install -fmy clang-format-12 clang-tidy-12 clang-tools-12
+#sudo apt-get install -fmy clang-format-13 clang-tidy-13 clang-tools-13
 #sudo apt-get install -fmy libc++1-5.0 libc++abi1-5.0 libomp5-5.0 libclang1-5.0
 #sudo apt-get install -fmy libc++-5.0-dev libc++abi-5.0-dev libomp-5.0-dev libclang-5.0-dev libclang-common-5.0-dev
 #sudo apt-get install -fmy libc++1-6.0 libc++abi1-6.0 libomp5-6.0 libclang1-6.0
@@ -150,11 +170,14 @@ sudo apt-get install -fmy llvm-12 clang-12 lld-12 #lldb-12 python-lldb-12
 #sudo apt-get install -fmy libc++-11-dev libc++abi-11-dev libomp-11-dev libclang-11-dev libclang-common-11-dev
 #sudo apt-get install -fmy libc++1-12 libc++abi1-12 libomp5-12 libclang1-12
 #sudo apt-get install -fmy libc++-12-dev libc++abi-12-dev libomp-12-dev libclang-12-dev libclang-common-12-dev
-sudo apt-get install -fmy ghc ghc-prof fp-compiler golang golang-1.7 golang-1.9 cython pypy
+#sudo apt-get install -fmy libc++1-13 libc++abi1-13 libomp5-13 libclang1-13
+#sudo apt-get install -fmy libc++-13-dev libc++abi-13-dev libomp-13-dev libclang-13-dev libclang-common-13-dev
+# Default LLVM packages
 sudo apt-get install -fmy libc++1 libc++abi1 libomp5 libclang1
 sudo apt-get install -fmy libc++-dev libc++abi-dev libomp-dev libclang-dev
 #sudo apt-get install -fmy llvm-dev lld-dev clang-dev clang-format-dev clang-tidy-dev clang-tools-dev
-#sudo apt-get install -fmy libfuzzer-5.0-dev libfuzzer-6.0-dev libfuzzer-7-dev libfuzzer-8-dev libfuzzer-9-dev libfuzzer-10-dev libfuzzer-11-dev libfuzzer-12-dev
+# Other compilers
+sudo apt-get install -fmy ghc ghc-prof fp-compiler golang golang-1.7 golang-1.9 cython pypy
 
 #MiKTeX
 if (( !server )); then
